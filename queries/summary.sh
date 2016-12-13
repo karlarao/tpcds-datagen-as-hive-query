@@ -15,3 +15,7 @@ done
 
 # paste queries.log  compile.log prepare.log submit.log submitdag.log rundag.log
 # Try join which will be more reliable
+
+
+
+grep -i -e "row selected" -e "rows selected" *.log | sed 's/.sql.*(/ /g' | sed 's/ seconds)//g' | awk -F" " '{a[$1]=a[$1]?a[$1]" "$2:$2; mi[$1]=mi[$1]?(mi[$1]>$2?$2:mi[$1]):$2;  ma[$1]=$2>ma[$1]?$2:ma[$1];  }END{for (i in a)print i, a[i], ma[i], mi[i], (ma[i]-mi[i])*100/ma[i];}' | sort | showtable -d ' ' 
